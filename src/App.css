@@ -2,22 +2,13 @@
   max-width: 1280px;
   margin: auto;
   text-align: center;
-  padding: 0 1rem;
-  border: 4px solid var(--color-sky-2);
+  background-color: var(--color-sky-2);
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 100px 1fr;
 }
 
-header {
-  background-color: var(--color-sky-2);
-  height: var(--header-height);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top: 1rem;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  will-change: transform;
-}
 
 h1,
 h2,
@@ -34,22 +25,23 @@ h1 {
   line-height: 1.1;
 }
 
+header {
+  background-color: var(--color-sky-1);
+  border: 2px solid var(--color-sky-3);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  will-change: transform;
+}
+
 
 main {
-
-  margin: auto;
+  width: 100%;
+  height: 100%;
   position: relative;
-}
-
-
-footer {
-  position: sticky;
-  bottom: 0;
-  background-color: var(--color-sky-2);
-}
-
-.logo {
-  width: 75vw;
-  min-width: 250px;
-  max-width: 100%;
+  background-color: var(--color-sky-1);
 }

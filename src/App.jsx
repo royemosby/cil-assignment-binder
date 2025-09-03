@@ -1,13 +1,17 @@
-import templateLogo from './assets/images/pleasant-start.svg';
 import './App.css';
+import AppRoutes from './routes/AppRoutes';
+import Nav from './components/nav';
 
 function App() {
   return (
     <>
+      <header>
+        <h1>CIL Assignment Binder</h1>
+        <Nav />
+      </header>
       <main>
-        <img src={templateLogo} className="logo" alt="React logo" />
+        <AppRoutes />
       </main>
-      <h1>Vite + React</h1>
     </>
   );
 }
