@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "test:clear-cache": "rm -rf node_modules/.vite/vitest"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -16,7 +17,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.8.1",
-    "react-router-dom": "^7.8.1"
+    "react-router-dom": "^7.8.1",
+    "ulid": "^3.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
