@@ -1,13 +1,16 @@
-import { processAssignmentsCSV } from '../../services/assignments_parser';
+import { processAssignmentsCSV } from '@services/assignmentsParser';
 
-export default function UploadForm({ onSetAssignments, onSetFields }) {
+export default function UploadForm({
+  setWorkingAssignments,
+  setWorkingFields,
+}) {
   const handleCsvUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const text = await file.text();
       const parsed = await processAssignmentsCSV(text);
-      onSetFields(parsed.meta.fields);
-      onSetAssignments(parsed.data);
+      setWorkingFields(parsed.meta.fields);
+      setWorkingAssignments(parsed.data);
     }
   };
 
