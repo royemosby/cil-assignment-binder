@@ -1,22 +1,12 @@
 import Papa from 'papaparse';
+import { ulid } from 'ulid';
 
 export function parseAssignmentsCSV(csvString) {
   const results = Papa.parse(csvString, {
     header: true,
+    preview: 3,
     skipEmptyLines: true,
     delimiter: ',',
-    transformHeader: (header) => {
-      switch (header) {
-        case 'Assigned Reviewer (from Student Class Records)':
-          return 'Assigned Reviewer';
-        case 'Student Section #':
-          return 'Student Section';
-        case 'Student Class Records':
-          return 'Student Name';
-        default:
-          return header;
-      }
-    },
   });
   return results;
 }
@@ -63,7 +53,7 @@ export function processAssignmentsCSV(csvString) {
   const assignmentRecords = data.map((assignment) => {
     const { Name, ...rest } = assignment;
     const nameColumnExpanded = parseNameForLessonInfo(Name);
-    const newFields = Object.keys(nameColumnExpanded);
+    const newFields = [...Object.keys(nameColumnExpanded), 'localId'];
     newFields.forEach((field) => {
       if (!expandedFields.includes(field)) {
         expandedFields.push(field);
@@ -71,6 +61,8 @@ export function processAssignmentsCSV(csvString) {
     });
     delete assignment.Name;
     delete assignment.Created;
+    const localId = ulid();
+    rest.localId = localId;
 
     return { ...rest, ...nameColumnExpanded };
   });

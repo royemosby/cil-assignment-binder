@@ -1,4 +1,4 @@
-import { parseNameForLessonInfo } from './assignments_parser';
+import { parseNameForLessonInfo } from './assignmentsParser';
 import { describe, it, expect } from 'vitest';
 
 describe('parseNameForLessonInfo', () => {
