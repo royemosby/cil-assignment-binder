@@ -17,10 +17,16 @@ export default function Nav() {
         App Admin
       </NavLink>
       <NavLink
+        to="/upload"
+        className={({ isActive }) => (isActive ? styles.active : undefined)}
+      >
+        Upload Assignment CSV
+      </NavLink>
+      <NavLink
         to="/assignments"
         className={({ isActive }) => (isActive ? styles.active : undefined)}
       >
-        Assignments
+        CIL Binder
       </NavLink>
     </nav>
   );
