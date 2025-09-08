@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import AssignmentRecordsTable from './AssignmentRecordsTable';
 import UploadForm from './UploadForm';
+import FieldsForm from './FieldsForm';
 
 export default function Upload() {
-  const [workingAssignments, setWorkingAssignments] = useState([]);
-  const [workingFields, setWorkingFields] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const [fields, setFields] = useState([]);
 
   function confirmRecords() {
     window.alert('confirmed');
@@ -12,18 +13,22 @@ export default function Upload() {
 
   return (
     <>
-      <UploadForm
-        setWorkingAssignments={setWorkingAssignments}
-        setWorkingFields={setWorkingFields}
-      />
-      {workingAssignments.length > 0 ? (
+      <UploadForm setAssignments={setAssignments} setFields={setFields} />
+      {assignments.length > 0 ? (
         <>
-          <button onClick={() => confirmRecords()}>Everything good?</button>
+          <FieldsForm
+            assignments={assignments}
+            fields={fields}
+            setFields={setFields}
+          />
+          <button onClick={() => confirmRecords()}>
+            Everything look good?
+          </button>
           <AssignmentRecordsTable
-            workingAssignments={workingAssignments}
-            workingFields={workingFields}
-            setWorkingAssignments={setWorkingAssignments}
-            setWorkingFields={setWorkingFields}
+            assignments={assignments}
+            fields={fields}
+            setAssignments={setAssignments}
+            setFields={setFields}
           />
         </>
       ) : (
