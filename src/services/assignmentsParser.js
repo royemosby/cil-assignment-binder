@@ -42,9 +42,31 @@ export function parseNameForLessonInfo(name) {
 
 export function processAssignmentsCSV(csvString) {
   const { data, errors, meta } = parseAssignmentsCSV(csvString);
-
+  const requiredFields = [
+    'Name',
+    'Current Class Status',
+    'Student Class Records',
+    'Review Completed?',
+    'URL',
+    'Student Section #',
+    'Created',
+    "Student's Slack",
+  ];
+  const missingFields = requiredFields.filter(
+    (field) => !meta.fields.includes(field)
+  );
+  if (missingFields.length > 0) {
+    throw new Error(
+      `CSV is missing required fields: ${missingFields.join(', ')}`
+    );
+  }
   if (errors.length > 0) {
-    throw { message: 'CSV contains errors', errors };
+    throw new Error(
+      `The CSV parser has ran into one or more issues: ${errors.map((e) => `type: ${e.type}; message: ${e.message} - in row ${e.row} (${e.code})`)}`,
+      {
+        cause: errors,
+      }
+    );
   }
 
   const croppedFields = meta.fields.filter((field) => field !== 'Name');
@@ -53,7 +75,10 @@ export function processAssignmentsCSV(csvString) {
   const assignmentRecords = data.map((assignment) => {
     const { Name, ...rest } = assignment;
     const nameColumnExpanded = parseNameForLessonInfo(Name);
-    const newFields = [...Object.keys(nameColumnExpanded), 'localId'];
+    const newFields = [
+      ...Object.keys(nameColumnExpanded),
+      'binderAssignmentId',
+    ];
     newFields.forEach((field) => {
       if (!expandedFields.includes(field)) {
         expandedFields.push(field);
@@ -61,14 +86,12 @@ export function processAssignmentsCSV(csvString) {
     });
     delete assignment.Name;
     delete assignment.Created;
-    const localId = ulid();
-    rest.localId = localId;
+    const binderAssignmentId = ulid();
+    rest.binderAssignmentId = binderAssignmentId;
 
     return { ...rest, ...nameColumnExpanded };
   });
 
   meta.fields = [...croppedFields, ...expandedFields];
-
-  console.log({ data: assignmentRecords, meta, errors });
   return { data: assignmentRecords, meta, errors };
 }
