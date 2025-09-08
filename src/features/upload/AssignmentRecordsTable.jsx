@@ -1,24 +1,17 @@
-export default function AssignmentRecordsTable({
-  workingFields,
-  workingAssignments,
-  setWorkingAssignments,
-  setWorkingFields,
-}) {
-  function updateWorkingFieldName(field) {}
-
+export default function AssignmentRecordsTable({ fields, assignments }) {
   return (
     <table>
       <thead>
         <tr>
-          {workingFields.map((field) => (
+          {fields.map((field) => (
             <th key={field}>{field}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {workingAssignments.map((assignment) => (
+        {assignments.map((assignment) => (
           <tr key={assignment.localId}>
-            {workingFields.map((field) => (
+            {fields.map((field) => (
               <td key={field}>{assignment[field]}</td>
             ))}
           </tr>
@@ -27,4 +20,3 @@ export default function AssignmentRecordsTable({
     </table>
   );
 }
-``;
