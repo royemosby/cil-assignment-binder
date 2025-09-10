@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
+    "dexie": "^4.2.0",
+    "dexie-react-hooks": "^4.2.0",
     "lodash": "^4.17.21",
     "papaparse": "^5.5.3",
     "radix-ui": "^1.4.3",
