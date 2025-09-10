@@ -1,33 +1,45 @@
-export default function RecordsSummary({ assignments }) {
+import { Button, Table } from '@radix-ui/themes';
+import { NavLink } from 'react-router';
+
+export default function RecordsSummary({
+  assignments,
+  setUpsertReady,
+  upsertReady,
+}) {
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>New Records</th>
-            <th>Existing Records</th>
-            <th>Total Records</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Assignment records</th>
-            <td>{assignments.length}</td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <th scope="row">Number of Students</th>
-            <td>
+      <Table.Root>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeaderCell />
+            <Table.ColumnHeaderCell>From uploaded CSV</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>New Records</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Duplicate Records</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>
+              Records to be Updated
+            </Table.ColumnHeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          <Table.Row>
+            <Table.RowHeaderCell>Assignments</Table.RowHeaderCell>
+            <Table.Cell>{assignments.length}</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.RowHeaderCell>Students</Table.RowHeaderCell>
+            <Table.Cell>
               {new Set(assignments.map((a) => a['Student Class Records'])).size}
-            </td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <th scope="row">Number of Mentors</th>
-            <td>
+            </Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.RowHeaderCell>Mentors</Table.RowHeaderCell>
+            <Table.Cell>
               {
                 new Set(
                   assignments.map(
@@ -35,12 +47,28 @@ export default function RecordsSummary({ assignments }) {
                   )
                 ).size
               }
-            </td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-        </tbody>
-      </table>
+            </Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+            <Table.Cell>0</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table.Root>
+
+      <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+        {upsertReady ? (
+          <>
+            <Button onClick={() => setUpsertReady(false)}>
+              Start New Import
+            </Button>
+            <NavLink to="/" style={{ textDecoration: 'none' }}>
+              <Button>Go to binder</Button>
+            </NavLink>
+          </>
+        ) : (
+          <Button onClick={() => setUpsertReady(true)}>Confirm</Button>
+        )}
+      </div>
     </div>
   );
 }
