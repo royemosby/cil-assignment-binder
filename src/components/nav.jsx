@@ -20,13 +20,7 @@ export default function Nav() {
         to="/upload"
         className={({ isActive }) => (isActive ? styles.active : undefined)}
       >
-        Upload Assignment CSV
-      </NavLink>
-      <NavLink
-        to="/assignments"
-        className={({ isActive }) => (isActive ? styles.active : undefined)}
-      >
-        CIL Binder
+        Upload New CSV
       </NavLink>
     </nav>
   );
