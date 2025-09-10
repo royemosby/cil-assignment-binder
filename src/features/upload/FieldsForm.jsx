@@ -15,13 +15,21 @@ export default function FieldsForm({ fields, assignments, setFields }) {
     setWorkingFields([...updatedFields]);
   };
 
+  const confirmFieldMapping = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        confirmFieldMapping(e);
+      }}
+    >
       <table>
         <thead>
           <tr>
-            <th>Original Field Name</th>
-            <th>Field Name</th>
+            <th>CSV Field Name</th>
+            <th>Mapped Field Name</th>
             <th>Example Input</th>
           </tr>
         </thead>
