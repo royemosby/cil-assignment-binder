@@ -4,7 +4,7 @@ import Nav from './components/nav';
 
 function App() {
   return (
-    <>
+    <div className="appWrapper">
       <header>
         <h1>CIL Assignment Binder</h1>
         <Nav />
@@ -12,7 +12,7 @@ function App() {
       <main>
         <AppRoutes />
       </main>
-    </>
+    </div>
   );
 }
 
