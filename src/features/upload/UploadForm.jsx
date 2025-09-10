@@ -1,4 +1,4 @@
-import { processAssignmentsCSV } from '@services/assignmentsParser';
+import { processAssignmentsCSV } from '@services/assignmentsParser/assignmentsParser';
 import { useEffect } from 'react';
 import testData from '../../TestAssignments.csv';
 
