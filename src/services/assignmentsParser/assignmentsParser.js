@@ -4,7 +4,7 @@ import { ulid } from 'ulid';
 export function parseAssignmentsCSV(csvString) {
   const results = Papa.parse(csvString, {
     header: true,
-    preview: 3,
+    //preview: 3,
     skipEmptyLines: true,
     delimiter: ',',
   });
