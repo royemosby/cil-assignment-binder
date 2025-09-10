@@ -12,8 +12,10 @@
     "test:clear-cache": "rm -rf node_modules/.vite/vitest"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.2.1",
     "lodash": "^4.17.21",
     "papaparse": "^5.5.3",
+    "radix-ui": "^1.4.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.8.1",
