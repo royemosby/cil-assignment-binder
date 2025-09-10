@@ -8,19 +8,19 @@ export default function Nav() {
         to="/"
         className={({ isActive }) => (isActive ? styles.active : undefined)}
       >
-        Home
-      </NavLink>
-      <NavLink
-        to="/admin"
-        className={({ isActive }) => (isActive ? styles.active : undefined)}
-      >
-        App Admin
+        Binder
       </NavLink>
       <NavLink
         to="/upload"
         className={({ isActive }) => (isActive ? styles.active : undefined)}
       >
         Upload New CSV
+      </NavLink>
+      <NavLink
+        to="/admin"
+        className={({ isActive }) => (isActive ? styles.active : undefined)}
+      >
+        App Admin
       </NavLink>
     </nav>
   );
