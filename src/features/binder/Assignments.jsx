@@ -1,22 +1,29 @@
+import { Table } from '@radix-ui/themes';
+import { useState } from 'react';
+
 export default function Assignments({ fields, assignments }) {
+  const [displayFields, setDispayFields] = useState(fields);
+
   return (
-    <table>
-      <thead>
-        <tr>
-          {fields.map((field) => (
-            <th key={field}>{field}</th>
+    <Table.Root>
+      <Table.Header>
+        <Table.Row>
+          {displayFields.map((field) => (
+            <Table.ColumnHeaderCell key={field}>{field}</Table.ColumnHeaderCell>
           ))}
-        </tr>
-      </thead>
-      <tbody>
-        {assignments.map((assignment) => (
-          <tr key={assignment.localId}>
-            {fields.map((field) => (
-              <td key={field}>{assignment[field]}</td>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {assignments?.map((assignment) => (
+          <Table.Row key={assignment.binderAssignmentId}>
+            {displayFields.map((field) => (
+              <Table.Cell key={`${field}-${assignment.binderAssignmentId}`}>
+                {assignment[field]}
+              </Table.Cell>
             ))}
-          </tr>
+          </Table.Row>
         ))}
-      </tbody>
-    </table>
+      </Table.Body>
+    </Table.Root>
   );
 }
