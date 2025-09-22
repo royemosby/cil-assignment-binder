@@ -4,30 +4,33 @@ import UploadForm from './UploadForm';
 import { Tabs } from 'radix-ui';
 import FieldAliasForm from './FieldAliasForm';
 import RecordsSummary from './RecordsSummary';
+import { useNavigate } from 'react-router';
 
 const tabValues = {
   REMAP: 'remap',
   SUMMARY: 'summary',
 };
 
-export default function Upload() {
+export default function Upload({
+  persistedFields,
+  setPersistedFields,
+  setPersistedAssignments,
+}) {
   const [assignments, setAssignments] = useState([]);
   const [fields, setFields] = useState([]);
   const [upsertReady, setUpsertReady] = useState(false);
   const [activeTab, setActiveTab] = useState(tabValues.SUMMARY);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (upsertReady) {
-      alert('upsert');
-      //upsert
-      //clear assignments
-      //clear fields
+      setPersistedAssignments(assignments);
+      setPersistedFields(fields);
+      setAssignments([]);
+      setFields([]);
+      navigate('/');
     }
   }, [upsertReady]);
-
-  function confirmRecords() {
-    window.alert('confirmed');
-  }
 
   function confirmFieldMapping() {
     setActiveTab(tabValues.SUMMARY);
@@ -66,6 +69,7 @@ export default function Upload() {
               <FieldAliasForm
                 assignments={assignments}
                 fields={fields}
+                persistedFields={persistedFields}
                 setFields={setFields}
                 confirmFieldMapping={confirmFieldMapping}
               />
