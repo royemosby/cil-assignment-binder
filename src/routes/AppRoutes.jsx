@@ -2,12 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import Admin from '../features/admin/Admin';
 import Binder from '../features/binder/Binder';
 import Upload from '../features/upload/Upload';
-export default function AppRoutes() {
+export default function AppRoutes(props) {
   return (
     <Routes>
-      <Route path="/" element={<Binder />} />
+      <Route path="/" element={<Binder {...props} />} />
       <Route path="/admin" element={<Admin />} />
-      <Route path="/upload" element={<Upload />} />
+      <Route path="/upload" element={<Upload {...props} />} />
     </Routes>
   );
 }
