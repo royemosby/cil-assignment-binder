@@ -30,18 +30,13 @@ header {
   align-items: center;
   padding: 1rem;
   justify-content: space-between;
-  /* position: sticky; */
-  /* top: 0; */
-  will-change: transform;
 }
 
 
 main {
-  width: 100%;
   height: calc(100vh - 100px);
   position: relative;
   background-color: var(--color-sky-1);
-  overflow-y: auto;
 }
 
 .appWrapper {
