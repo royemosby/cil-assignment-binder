@@ -16,12 +16,6 @@ export default function Nav() {
       >
         Upload New CSV
       </NavLink>
-      <NavLink
-        to="/admin"
-        className={({ isActive }) => (isActive ? styles.active : undefined)}
-      >
-        App Admin
-      </NavLink>
     </nav>
   );
 }
