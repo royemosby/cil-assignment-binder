@@ -3,11 +3,7 @@ import { useEffect } from 'react';
 import styles from './UploadForm.module.css';
 import testData from '../../TestAssignments.csv';
 
-export default function UploadForm({
-  setAssignments,
-  setFields,
-  setUpsertReady,
-}) {
+export default function UploadForm({ setAssignments, setFields }) {
   //TODO delete after
   useEffect(() => {
     const loadTestData = async () => {
@@ -16,10 +12,9 @@ export default function UploadForm({
       const parsed = await parseAssignmentsCSV(text);
       setFields(parsed.meta.fields);
       setAssignments(parsed.data);
-      console.dir(parsed);
     };
     loadTestData();
-  }, []);
+  }, [setAssignments, setFields]);
 
   const handleCsvUpload = async (e) => {
     const file = e.target.files[0];
@@ -28,7 +23,6 @@ export default function UploadForm({
       const parsed = await parseAssignmentsCSV(text);
       setFields(parsed.meta.fields);
       setAssignments(parsed.data);
-      setUpsertReady(false);
     }
   };
 
