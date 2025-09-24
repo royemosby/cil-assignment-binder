@@ -1,11 +1,6 @@
-import { Button, Table } from '@radix-ui/themes';
-import { NavLink } from 'react-router';
+import { Table } from '@radix-ui/themes';
 
-export default function RecordsSummary({
-  assignments,
-  setUpsertReady,
-  upsertReady,
-}) {
+export default function RecordsSummary({ assignments }) {
   return (
     <div>
       <Table.Root>
@@ -54,21 +49,6 @@ export default function RecordsSummary({
           </Table.Row>
         </Table.Body>
       </Table.Root>
-
-      <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-        {upsertReady ? (
-          <>
-            <Button onClick={() => setUpsertReady(false)}>
-              Start New Import
-            </Button>
-            <NavLink to="/" style={{ textDecoration: 'none' }}>
-              <Button>Go to binder</Button>
-            </NavLink>
-          </>
-        ) : (
-          <Button onClick={() => setUpsertReady(true)}>Confirm</Button>
-        )}
-      </div>
     </div>
   );
 }
