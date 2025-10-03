@@ -140,3 +140,19 @@ export function useStudentsByCohort(cohortId) {
     loading: students === undefined,
   };
 }
+
+export function useStudentsWithSubmissions() {
+  const studentsWithSubmissions = useLiveQuery(async () => {
+    const students = await db.students.toArray();
+    const submissions = await db.submissions.toArray();
+
+    return students.map((student) => ({
+      ...student,
+      assignments: submissions.filter((s) => s.studentId === student.id),
+    }));
+  });
+  return {
+    studentsWithSubmissions,
+    loading: studentsWithSubmissions === undefined,
+  };
+}
