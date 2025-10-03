@@ -285,16 +285,17 @@ export function useSubmissionsWithStudents() {
   // Read - get submissions joined with student data
   const submissionsWithStudents = useLiveQuery(async () => {
     const submissions = await db.submissions.toArray();
-    const submissionsWithStudentData = await Promise.all(
-      submissions.map(async (submission) => {
-        const student = await db.students.get(submission.studentId);
-        return {
-          ...submission,
-          student,
-        };
-      })
-    );
-    return submissionsWithStudentData;
+    if (!submissions.length) return [];
+    // Fetch all students once for efficient lookup
+    const students = await db.students.toArray();
+    const studentMap = students.reduce((acc, student) => {
+      acc[student.id] = student;
+      return acc;
+    }, {});
+    return submissions.map((submission) => ({
+      ...submission,
+      student: studentMap[submission.studentId] || null,
+    }));
   });
 
   return {
