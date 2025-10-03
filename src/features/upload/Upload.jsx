@@ -1,10 +1,11 @@
 import styles from './Upload.module.css';
 import { useState } from 'react';
 import UploadForm from './UploadForm';
-import { Tabs } from 'radix-ui';
+import { Tabs } from '@radix-ui/themes';
 import { Button } from '@radix-ui/themes';
 import RecordsSummary from './RecordsSummary';
 import { useSubmissions } from '@services/persistence/hooks';
+import { parseDate } from '@services/utils';
 
 const tabValues = {
   FIELDS: 'fields',
@@ -42,11 +43,13 @@ export default function Upload() {
         week: assignment.week,
         topic: assignment.topic,
         url: assignment.url,
-        submittedOn: assignment.submittedOn || null,
+        submittedOn: parseDate(assignment.submittedOn),
         reviewCompleted: assignment.reviewCompleted === '✅',
         reviewCompletedBy: assignment.reviewCompletedBy,
-        reviewOn: assignment.reviewOn,
+        reviewOn: parseDate(assignment.reviewOn),
         assignmentStatus: assignment.assignmentStatus,
+        auditStatus: '',
+        auditNotes: '',
       }));
 
       // Perform bulk upsert
