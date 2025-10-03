@@ -7,5 +7,5 @@ db.version(1).stores({
 
   students: '++id, cohortId, name, currentStatus, slack, slackUrl, auditStatus',
   submissions:
-    '++id, studentId, submittedOn, week, topic, url, reviewCompleted, assignmentStatus, reviewedCompletedBy, reviewedOn',
+    '++id, studentId, submittedOn, week, topic, url, reviewCompleted, assignmentStatus, reviewedCompletedBy, reviewedOn, auditStatus, auditNotes',
 });
