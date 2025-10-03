@@ -1,5 +1,10 @@
 // Export all hooks from a single entry point
-export { useStudents, useStudent, useStudentsByCohort } from './useStudents';
+export {
+  useStudents,
+  useStudent,
+  useStudentsByCohort,
+  useStudentsWithSubmissions,
+} from './useStudents';
 export {
   useSubmissions,
   useSubmission,
