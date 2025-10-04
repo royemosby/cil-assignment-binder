@@ -1,4 +1,5 @@
 import styles from './Binder.module.css';
+import { useState } from 'react';
 import { Link } from 'react-router';
 import { Tabs } from 'radix-ui';
 import Assignments from './Assignments';
@@ -6,15 +7,23 @@ import Students from './Students/Students';
 import { useSubmissions } from '@services/persistence/hooks';
 
 export default function Binder() {
+  const [activeTab, setActiveTab] = useState('assignments');
   const { submissions } = useSubmissions();
   return (
     <>
       <h1>Binder</h1>
       {submissions ? (
-        <Tabs.Root defaultValue="assignments">
+        <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
           <Tabs.List className={styles.tabsList}>
-            <Tabs.Trigger value="assignments">Assignments</Tabs.Trigger>
-            <Tabs.Trigger value="students">Students</Tabs.Trigger>
+            <Tabs.Trigger
+              value="assignments"
+              disabled={activeTab === 'assignments'}
+            >
+              Assignments
+            </Tabs.Trigger>
+            <Tabs.Trigger value="students" disabled={activeTab === 'students'}>
+              Students
+            </Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value="assignments">
             <Assignments />
