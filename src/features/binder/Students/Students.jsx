@@ -1,5 +1,6 @@
 import { useStudentsWithSubmissions } from '@services/persistence/hooks';
 import StudentCard from './StudentCard';
+import styles from './Students.module.css';
 
 export default function Students() {
   const { studentsWithSubmissions, loading } = useStudentsWithSubmissions();
@@ -25,13 +26,7 @@ export default function Students() {
   return (
     <div>
       <h2>Students</h2>
-      <div
-        style={{
-          display: 'grid',
-          gap: '1rem',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        }}
-      >
+      <div className={styles.studentsGrid}>
         {studentsWithSubmissions.map((student) => {
           const latestAssignment = getLatestAssignment(student.assignments);
 

@@ -1,25 +1,26 @@
 import { Card, Text, Badge } from '@radix-ui/themes';
+import styles from './StudentCard.module.css';
 
 export default function StudentCard({ student, latestAssignment }) {
   return (
-    <Card style={{ padding: '1rem' }}>
-      <div style={{ marginBottom: '0.5rem' }}>
+    <Card className={styles.card}>
+      <div className={styles.studentHeader}>
         <Text size="4" weight="bold">
           {student.name}
         </Text>
         {student.slack && (
-          <Text size="2" color="gray" style={{ display: 'block' }}>
+          <Text size="2" color="gray" className={styles.slackHandle}>
             @{student.slack}
           </Text>
         )}
       </div>
 
-      <div style={{ marginBottom: '0.5rem' }}>
+      <div className={styles.badgeSection}>
         <Badge color="blue">
           {student.assignments?.length || 0} submissions
         </Badge>
         {student.currentStatus && (
-          <Badge color="green" style={{ marginLeft: '0.5rem' }}>
+          <Badge color="green" className={styles.statusBadge}>
             {student.currentStatus}
           </Badge>
         )}
@@ -30,15 +31,11 @@ export default function StudentCard({ student, latestAssignment }) {
           <Text
             size="3"
             weight="medium"
-            style={{ display: 'block', marginBottom: '0.25rem' }}
+            className={styles.latestAssignmentTitle}
           >
             Latest: Week {latestAssignment.week} - {latestAssignment.topic}
           </Text>
-          <Text
-            size="2"
-            color="gray"
-            style={{ display: 'block', marginBottom: '0.25rem' }}
-          >
+          <Text size="2" color="gray" className={styles.submittedDate}>
             Submitted:{' '}
             {new Date(latestAssignment.submittedOn).toLocaleDateString()}
           </Text>
@@ -52,17 +49,13 @@ export default function StudentCard({ student, latestAssignment }) {
             </Badge>
             {latestAssignment.reviewCompleted &&
               latestAssignment.reviewCompletedBy && (
-                <Text size="2" color="gray" style={{ marginLeft: '0.5rem' }}>
+                <Text size="2" color="gray" className={styles.reviewerName}>
                   by {latestAssignment.reviewCompletedBy}
                 </Text>
               )}
           </div>
           {latestAssignment.assignmentStatus && (
-            <Text
-              size="2"
-              color="gray"
-              style={{ display: 'block', marginTop: '0.25rem' }}
-            >
+            <Text size="2" color="gray" className={styles.assignmentStatus}>
               Status: {latestAssignment.assignmentStatus}
             </Text>
           )}

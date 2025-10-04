@@ -1,0 +1,38 @@
+.card {
+  padding: 1rem;
+}
+
+.studentHeader {
+  margin-bottom: 0.5rem;
+}
+
+.slackHandle {
+  display: block;
+}
+
+.badgeSection {
+  margin-bottom: 0.5rem;
+}
+
+.statusBadge {
+  margin-left: 0.5rem;
+}
+
+.latestAssignmentTitle {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.submittedDate {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.reviewerName {
+  margin-left: 0.5rem;
+}
+
+.assignmentStatus {
+  display: block;
+  margin-top: 0.25rem;
+}

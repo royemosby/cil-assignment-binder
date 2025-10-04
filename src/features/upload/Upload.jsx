@@ -88,7 +88,7 @@ Submissions: ${result.results.submissions.created} created, ${result.results.sub
           <Tabs.Root
             value={activeTab}
             onValueChange={setActiveTab}
-            style={{ width: '100%' }}
+            className={styles.tabsRoot}
           >
             <Tabs.List aria-label="Upload Tabs" className={styles.tabsList}>
               <Tabs.Trigger
@@ -120,15 +120,7 @@ Submissions: ${result.results.submissions.created} created, ${result.results.sub
             {isUploading ? 'Uploading...' : 'Confirm Upload'}
           </Button>
           {uploadResult && uploadResult.success && (
-            <div
-              style={{
-                marginTop: '1rem',
-                padding: '1rem',
-                backgroundColor: '#d4edda',
-                border: '1px solid #c3e6cb',
-                borderRadius: '4px',
-              }}
-            >
+            <div className={styles.successMessage}>
               <h4>Upload Successful!</h4>
               <p>
                 Students: {uploadResult.results.students.created} created,{' '}
@@ -141,15 +133,7 @@ Submissions: ${result.results.submissions.created} created, ${result.results.sub
             </div>
           )}
           {uploadResult && !uploadResult.success && (
-            <div
-              style={{
-                marginTop: '1rem',
-                padding: '1rem',
-                backgroundColor: '#f8d7da',
-                border: '1px solid #f5c6cb',
-                borderRadius: '4px',
-              }}
-            >
+            <div className={styles.errorMessage}>
               <h4>Upload Completed with Errors</h4>
               <p>
                 Some records may not have been processed correctly. Check the
