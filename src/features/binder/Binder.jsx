@@ -2,7 +2,7 @@ import styles from './Binder.module.css';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { Tabs } from 'radix-ui';
-import Assignments from './Assignments';
+import Assignments from './Assignments/Assignments';
 import Students from './Students/Students';
 import { useSubmissions } from '@services/persistence/hooks';
 
