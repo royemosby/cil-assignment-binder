@@ -1,0 +1,93 @@
+.assignmentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+/* Navigation Styles */
+.statusNavigation {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background);
+  border: 1px solid var(--gray-6);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.navigationTitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-12);
+}
+
+.navigationButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.navigationButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gray-7);
+  border-radius: 6px;
+  background-color: var(--gray-2);
+  color: var(--gray-12);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navigationButton:hover {
+  background-color: var(--gray-3);
+  border-color: var(--gray-8);
+  transform: translateY(-1px);
+}
+
+.navigationButton:active {
+  transform: translateY(0);
+  background-color: var(--gray-4);
+}
+
+.statusGroup {
+  border-radius: 8px;
+  border: 1px solid var(--gray-6);
+  padding: 1.5rem;
+  background-color: var(--gray-1);
+  scroll-margin-top: 120px;
+  /* Account for sticky navigation */
+}
+
+.statusTitle {
+  margin: 0 0 1rem 0;
+  padding: 0.75rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-12);
+  border-bottom: 2px solid var(--gray-6);
+}
+
+/* Legacy submission flag styles - keeping for compatibility */
+.submissionFlags {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.flag {
+  display: inline-block;
+}
+
+.flag svg {
+  width: 16px;
+  height: 16px;
+  color: #dc2626;
+  /* Red color for warning */
+}
