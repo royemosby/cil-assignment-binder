@@ -12,22 +12,29 @@ export default function Binder() {
       {submissions ? (
         <>
           <nav className={styles.tabsList}>
-            <Link
-              to="/binder/assignments"
-              className={`${styles.tabLink} ${
-                location.pathname === '/binder/assignments' ? styles.active : ''
-              }`}
-            >
-              Assignments
-            </Link>
-            <Link
-              to="/binder/students"
-              className={`${styles.tabLink} ${
-                location.pathname === '/binder/students' ? styles.active : ''
-              }`}
-            >
-              Students
-            </Link>
+            {location.pathname === '/binder/assignments' ? (
+              <span
+                className={`${styles.tabLink} ${styles.active} ${styles.disabled}`}
+              >
+                Assignments
+              </span>
+            ) : (
+              <Link to="/binder/assignments" className={styles.tabLink}>
+                Assignments
+              </Link>
+            )}
+            {location.pathname === '/binder/students' ||
+            location.pathname.startsWith('/binder/students/') ? (
+              <span
+                className={`${styles.tabLink} ${styles.active} ${styles.disabled}`}
+              >
+                Students
+              </span>
+            ) : (
+              <Link to="/binder/students" className={styles.tabLink}>
+                Students
+              </Link>
+            )}
           </nav>
           <div className={styles.tabContent}>
             <Outlet />

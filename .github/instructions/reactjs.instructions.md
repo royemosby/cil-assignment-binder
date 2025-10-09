@@ -121,6 +121,33 @@ Official React documentation is at https://react.dev.
 - Provide alt text for images and descriptive text for icons
 - Implement proper color contrast ratios
 
+## Task Completion and Cleanup
+
+When completing a task list or wrapping up feature implementation, always perform these cleanup steps:
+
+### Code Quality Checks
+
+- **Remove Unused Imports**: Check all modified files for unused import statements and remove them
+- **Validate ESLint Rules**: Ensure no ESLint errors or warnings remain in the codebase
+- **Check Console Errors**: Verify no console errors or warnings appear in browser developer tools
+- **Remove Debug Code**: Remove any temporary console.log statements, commented code, or debugging artifacts
+
+### Import Management
+
+- Use the `get_errors` tool to identify unused import warnings
+- Remove imports that are no longer referenced in the component
+- Consolidate multiple imports from the same module when possible
+- Maintain alphabetical ordering of import statements for consistency
+- Verify that all used functions, components, and utilities are properly imported
+
+### Final Validation
+
+- Run the application to ensure all functionality works as expected
+- Test navigation flows and user interactions
+- Verify responsive design works across different screen sizes
+- Check accessibility features are functioning properly
+- Confirm all new routes and links work correctly
+
 ## Additional Guidelines
 
 - Follow React's naming conventions (PascalCase for components, camelCase for functions)

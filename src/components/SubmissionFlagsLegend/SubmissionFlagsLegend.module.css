@@ -1,0 +1,95 @@
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--gray-2);
+  border-radius: 6px;
+  border: 1px solid var(--gray-6);
+}
+
+.legendTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-12);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.flagList {
+  display: flex;
+  gap: 1rem;
+}
+
+.flagItem {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 14px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid;
+}
+
+/* Missing Pull Request - Yellow theme */
+.flagItem:nth-child(1) {
+  background-color: var(--yellow-3);
+  border-color: var(--yellow-7);
+}
+
+.flagItem:nth-child(1) .flagLabel {
+  color: var(--yellow-12);
+}
+
+/* Blocking Issues - Red theme */
+.flagItem:nth-child(2) {
+  background-color: var(--red-3);
+  border-color: var(--red-7);
+}
+
+.flagItem:nth-child(2) .flagLabel {
+  color: var(--red-12);
+}
+
+.flagItem:nth-child(2) .flagIcon {
+  color: var(--red-10);
+}
+
+.flagDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  font-size: 12px;
+}
+
+.flagIcon {
+  width: 12px;
+  height: 12px;
+  color: var(--red-9);
+}
+
+.flagLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gray-12);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .flagList {
+    gap: 0.75rem;
+  }
+
+  .flagLabel {
+    font-size: 0.75rem;
+  }
+}
