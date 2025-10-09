@@ -1,5 +1,6 @@
 import { useSubmissionsWithStudents } from '@services/persistence/hooks';
 import AssignmentsTable from '@components/AssignmentsTable/AssignmentsTable';
+import SubmissionFlagsLegend from '@components/SubmissionFlagsLegend/SubmissionFlagsLegend';
 import styles from './Assignments.module.css';
 
 export default function Assignments() {
@@ -80,6 +81,7 @@ export default function Assignments() {
             </button>
           ))}
         </div>
+        <SubmissionFlagsLegend />
       </nav>
 
       {/* Status Groups */}
