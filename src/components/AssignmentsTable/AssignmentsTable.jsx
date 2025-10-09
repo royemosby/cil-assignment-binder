@@ -1,5 +1,6 @@
 import { Table } from '@radix-ui/themes';
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { Link } from 'react-router-dom';
 import styles from './AssignmentsTable.module.css';
 
 export default function AssignmentsTable({ submissions }) {
@@ -65,12 +66,12 @@ export default function AssignmentsTable({ submissions }) {
           submission.url.includes('/pull/')));
 
     if (!isPullRequest) {
-      flags.push('😞'); // Sad face emoji for missing PR
+      flags.push({ content: '😞', type: 'missingPr' }); // Sad face emoji for missing PR
     }
 
     // Check for blocking issues (missing previous assignments or unapproved revisions)
     if (hasBlockingIssues(submission, allSubmissions)) {
-      flags.push(<Cross1Icon key="blocking" className={styles.flag} />);
+      flags.push({ content: <Cross1Icon key="blocking" />, type: 'blocking' });
     }
 
     return flags;
@@ -104,14 +105,29 @@ export default function AssignmentsTable({ submissions }) {
               <div className={styles.submissionFlags}>
                 {getSubmissionFlags(submission, submissions).map(
                   (flag, index) => (
-                    <span key={index} className={styles.flag}>
-                      {flag}
+                    <span
+                      key={index}
+                      className={`${styles.flag} ${styles[flag.type]}`}
+                    >
+                      {flag.content}
                     </span>
                   )
                 )}
               </div>
             </Table.Cell>
-            <Table.Cell>{submission.student?.name || 'Unknown'}</Table.Cell>
+            <Table.Cell>
+              {submission.student?.name ? (
+                <Link
+                  to={`/binder/students/${submission.studentId}`}
+                  state={{ from: '/binder/assignments' }}
+                  className={styles.studentNameLink}
+                >
+                  {submission.student.name}
+                </Link>
+              ) : (
+                'Unknown'
+              )}
+            </Table.Cell>
             <Table.Cell>{submission.student?.slack || '-'}</Table.Cell>
             <Table.Cell>{submission.student?.currentStatus || '-'}</Table.Cell>
             <Table.Cell>{submission.week}</Table.Cell>

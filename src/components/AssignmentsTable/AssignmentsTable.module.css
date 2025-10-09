@@ -7,12 +7,45 @@
 }
 
 .flag {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 20px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-size: 12px;
+  padding: 0.125rem;
 }
 
-.flag svg {
-  width: 16px;
-  height: 16px;
-  color: #dc2626;
-  /* Red color for warning */
+/* Missing Pull Request emoji - Yellow theme */
+.missingPr {
+  background-color: var(--yellow-3);
+  border-color: var(--yellow-7);
+}
+
+/* Blocking Issues Cross1Icon - Red theme */
+.blocking {
+  background-color: var(--red-3);
+  border-color: var(--red-7);
+}
+
+.blocking svg {
+  width: 12px;
+  height: 12px;
+  color: var(--red-10);
+}
+
+.studentNameLink {
+  color: var(--blue-11);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.studentNameLink:hover {
+  background-color: var(--blue-3);
+  text-decoration: underline;
 }
