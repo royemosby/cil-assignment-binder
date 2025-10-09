@@ -1,0 +1,186 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: var(--gray-3);
+}
+
+.headerCard {
+  padding: 2rem;
+}
+
+.studentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.studentName {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--gray-12);
+}
+
+.slackHandle {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.badgeSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  white-space: nowrap;
+}
+
+.summaryCard,
+.historyCard {
+  padding: 1.5rem;
+}
+
+.sectionTitle {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--gray-12);
+  border-bottom: 1px solid var(--gray-6);
+  padding-bottom: 0.5rem;
+}
+
+.latestAssignment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.assignmentBadges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.assignmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assignmentItem {
+  padding: 1rem 0;
+}
+
+.assignmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.assignmentDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.assignmentLink {
+  color: var(--blue-11);
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.assignmentLink:hover {
+  background-color: var(--blue-3);
+  text-decoration: underline;
+}
+
+.separator {
+  margin: 0.5rem 0;
+  background-color: var(--gray-6);
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+}
+
+.futureSection {
+  text-align: center;
+  padding: 2rem;
+  border: 2px dashed var(--gray-6);
+  border-radius: 8px;
+  background-color: var(--gray-1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .headerCard,
+  .summaryCard,
+  .historyCard {
+    padding: 1rem;
+  }
+
+  .studentHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .badgeSection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .assignmentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .assignmentDetails {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
