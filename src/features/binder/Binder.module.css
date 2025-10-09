@@ -32,6 +32,17 @@
   z-index: 1;
 }
 
+.tabLink.disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.tabLink.disabled:hover {
+  background-color: var(--color-background);
+  color: var(--gray-12);
+  transform: none;
+}
+
 .tabContent {
   padding-top: 1rem;
 }
