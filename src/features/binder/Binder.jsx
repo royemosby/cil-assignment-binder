@@ -1,37 +1,38 @@
 import styles from './Binder.module.css';
-import { useState } from 'react';
-import { Link } from 'react-router';
-import { Tabs } from 'radix-ui';
-import Assignments from './Assignments/Assignments';
-import Students from './Students/Students';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useSubmissions } from '@services/persistence/hooks';
 
 export default function Binder() {
-  const [activeTab, setActiveTab] = useState('assignments');
   const { submissions } = useSubmissions();
+  const location = useLocation();
+
   return (
     <>
       <h1>Binder</h1>
       {submissions ? (
-        <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
-          <Tabs.List className={styles.tabsList}>
-            <Tabs.Trigger
-              value="assignments"
-              disabled={activeTab === 'assignments'}
+        <>
+          <nav className={styles.tabsList}>
+            <Link
+              to="/binder/assignments"
+              className={`${styles.tabLink} ${
+                location.pathname === '/binder/assignments' ? styles.active : ''
+              }`}
             >
               Assignments
-            </Tabs.Trigger>
-            <Tabs.Trigger value="students" disabled={activeTab === 'students'}>
+            </Link>
+            <Link
+              to="/binder/students"
+              className={`${styles.tabLink} ${
+                location.pathname === '/binder/students' ? styles.active : ''
+              }`}
+            >
               Students
-            </Tabs.Trigger>
-          </Tabs.List>
-          <Tabs.Content value="assignments">
-            <Assignments />
-          </Tabs.Content>
-          <Tabs.Content value="students">
-            <Students />
-          </Tabs.Content>
-        </Tabs.Root>
+            </Link>
+          </nav>
+          <div className={styles.tabContent}>
+            <Outlet />
+          </div>
+        </>
       ) : (
         <p>
           Looks a bit empty here! Get started by{' '}
