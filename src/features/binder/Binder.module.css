@@ -46,3 +46,21 @@
 .tabContent {
   padding-top: 1rem;
 }
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  margin-bottom: 0.25rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-12);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--gray-10);
+  font-weight: 500;
+}

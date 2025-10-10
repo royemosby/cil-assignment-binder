@@ -1,12 +1,21 @@
-import { useStudentsWithSubmissions } from '@services/persistence/hooks';
+import {
+  useStudentsWithSubmissionsForCohort,
+  useSelectedCohort,
+} from '@services/persistence/hooks';
 import StudentCard from './StudentCard';
 import styles from './Students.module.css';
 
 export default function Students() {
-  const { studentsWithSubmissions, loading } = useStudentsWithSubmissions();
+  const { selectedCohort } = useSelectedCohort();
+  const { studentsWithSubmissions, loading } =
+    useStudentsWithSubmissionsForCohort(selectedCohort?.id);
 
   if (loading) {
     return <div>Loading students...</div>;
+  }
+
+  if (!selectedCohort) {
+    return <div>Please select a cohort to view students.</div>;
   }
 
   if (!studentsWithSubmissions || studentsWithSubmissions.length === 0) {

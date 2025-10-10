@@ -1,13 +1,22 @@
-import { useSubmissionsWithStudents } from '@services/persistence/hooks';
+import {
+  useSubmissionsWithStudentsForCohort,
+  useSelectedCohort,
+} from '@services/persistence/hooks';
 import AssignmentsTable from '@components/AssignmentsTable/AssignmentsTable';
 import SubmissionFlagsLegend from '@components/SubmissionFlagsLegend/SubmissionFlagsLegend';
 import styles from './Assignments.module.css';
 
 export default function Assignments() {
-  const { submissionsWithStudents, loading } = useSubmissionsWithStudents();
+  const { selectedCohort } = useSelectedCohort();
+  const { submissionsWithStudents, loading } =
+    useSubmissionsWithStudentsForCohort(selectedCohort?.id);
 
   if (loading) {
     return <div>Loading assignments...</div>;
+  }
+
+  if (!selectedCohort) {
+    return <div>Please select a cohort to view assignments.</div>;
   }
 
   // Group submissions by student current status

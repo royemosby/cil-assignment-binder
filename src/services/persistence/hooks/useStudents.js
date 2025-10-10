@@ -1,5 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
+import {
+  cleanStudentName,
+  extractCohortFromName,
+} from '../../utils/cohortUtils';
 
 export function useStudents() {
   // Read - get all students
@@ -38,8 +42,8 @@ export function useStudents() {
     }
   };
 
-  // Upsert - add or update student based on unique field
-  const upsertStudent = async (studentData, uniqueField = 'id') => {
+  // Upsert - add or update student based on unique field within cohort context
+  const upsertStudent = async (studentData, uniqueField = 'name') => {
     try {
       if (uniqueField === 'id' && studentData.id) {
         // If ID is provided, try to update first
@@ -48,8 +52,24 @@ export function useStudents() {
           await db.students.update(studentData.id, studentData);
           return { success: true, id: studentData.id, action: 'updated' };
         }
-      } else if (uniqueField !== 'id') {
-        // Search by other unique field (e.g., slack, name)
+      } else if (
+        uniqueField === 'name' &&
+        studentData.name &&
+        studentData.cohortId
+      ) {
+        // For cohort-aware matching: search by name within cohort
+        const existing = await db.students
+          .where('name')
+          .equals(studentData.name)
+          .and((student) => student.cohortId === studentData.cohortId)
+          .first();
+
+        if (existing) {
+          await db.students.update(existing.id, studentData);
+          return { success: true, id: existing.id, action: 'updated' };
+        }
+      } else if (uniqueField !== 'id' && uniqueField !== 'name') {
+        // Search by other unique field (e.g., slack)
         const existing = await db.students
           .where(uniqueField)
           .equals(studentData[uniqueField])
@@ -80,8 +100,59 @@ export function useStudents() {
     }
   };
 
+  // Sync student auditStatus to their latest submission during weekly updates
+  const syncStudentAuditStatusToLatestSubmission = async (
+    studentId,
+    newAuditStatus,
+    currentWeek
+  ) => {
+    try {
+      // Update student's auditStatus
+      await db.students.update(studentId, { auditStatus: newAuditStatus });
+
+      // Find student's latest submission (current week)
+      const latestSubmission = await db.submissions
+        .where('studentId')
+        .equals(studentId)
+        .and((submission) => Number(submission.week) === currentWeek)
+        .first();
+
+      if (latestSubmission) {
+        // Update latest submission's auditStatus to match student's auditStatus
+        await db.submissions.update(latestSubmission.id, {
+          auditStatus: newAuditStatus,
+        });
+      }
+
+      return { success: true };
+      // Note: Prior weeks remain unchanged for longitudinal tracking
+      // assignmentStatus (like "Needs Review") is separate from auditStatus
+    } catch (error) {
+      console.error('Error syncing audit status:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Parse student data from CSV format (handles cohort extraction)
+  const parseStudentFromCSV = (csvRow, defaultCohortId) => {
+    const fullName = csvRow.name || csvRow.studentName || '';
+    const cohortName = extractCohortFromName(fullName);
+    const cleanName = cleanStudentName(fullName);
+
+    return {
+      name: cleanName,
+      cohortId: defaultCohortId, // Will be updated based on cohort resolution
+      currentStatus: csvRow.currentStatus || '',
+      slack: csvRow.slack || '',
+      slackUrl: csvRow.slackUrl || '',
+      auditStatus: '', // Preserve existing or start empty
+      originalName: fullName,
+      detectedCohort: cohortName !== 'Current Cohort' ? cohortName : null,
+    };
+  };
+
   // Bulk upsert operations
-  const upsertStudents = async (studentsArray, uniqueField = 'id') => {
+  const upsertStudents = async (studentsArray, uniqueField = 'name') => {
     try {
       const results = await Promise.all(
         studentsArray.map((student) => upsertStudent(student, uniqueField))
@@ -114,6 +185,8 @@ export function useStudents() {
     upsertStudent,
     addStudents,
     upsertStudents,
+    syncStudentAuditStatusToLatestSubmission,
+    parseStudentFromCSV,
     loading: students === undefined,
   };
 }
@@ -151,6 +224,40 @@ export function useStudentsWithSubmissions() {
       assignments: submissions.filter((s) => s.studentId === student.id),
     }));
   });
+  return {
+    studentsWithSubmissions,
+    loading: studentsWithSubmissions === undefined,
+  };
+}
+
+export function useStudentsWithSubmissionsForCohort(cohortId) {
+  const studentsWithSubmissions = useLiveQuery(async () => {
+    if (!cohortId) return [];
+
+    // Get students in the cohort
+    const students = await db.students
+      .where('cohortId')
+      .equals(cohortId)
+      .toArray();
+
+    if (students.length === 0) return [];
+
+    // Manual sorting since we can't use orderBy after where().equals()
+    students.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Get submissions for those students
+    const studentIds = students.map((student) => student.id);
+    const submissions = await db.submissions
+      .where('studentId')
+      .anyOf(studentIds)
+      .toArray();
+
+    return students.map((student) => ({
+      ...student,
+      assignments: submissions.filter((s) => s.studentId === student.id),
+    }));
+  }, [cohortId]);
+
   return {
     studentsWithSubmissions,
     loading: studentsWithSubmissions === undefined,

@@ -1,13 +1,18 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Card, Text, Badge, Button, Separator } from '@radix-ui/themes';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
-import { useStudentsWithSubmissions } from '@services/persistence/hooks';
+import {
+  useStudentsWithSubmissionsForCohort,
+  useSelectedCohort,
+} from '@services/persistence/hooks';
 import { useEffect, useState } from 'react';
 import styles from './StudentDetails.module.css';
 
 export default function StudentDetails() {
   const { studentId } = useParams();
-  const { studentsWithSubmissions, loading } = useStudentsWithSubmissions();
+  const { selectedCohort } = useSelectedCohort();
+  const { studentsWithSubmissions, loading } =
+    useStudentsWithSubmissionsForCohort(selectedCohort?.id);
   const location = useLocation();
 
   // Determine the referring page for breadcrumb navigation
@@ -42,6 +47,20 @@ export default function StudentDetails() {
     return <div>Loading student details...</div>;
   }
 
+  if (!selectedCohort) {
+    return (
+      <div className={styles.notFound}>
+        <h2>No Cohort Selected</h2>
+        <p>Please select a cohort to view student details.</p>
+        <Link to={referringPage.path}>
+          <Button variant="soft">
+            <ArrowLeftIcon /> {referringPage.label}
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
   // Find the specific student by ID (convert string ID from URL to number)
   const student = studentsWithSubmissions?.find(
     (s) => s.id === Number(studentId)
@@ -51,7 +70,11 @@ export default function StudentDetails() {
     return (
       <div className={styles.notFound}>
         <h2>Student Not Found</h2>
-        <p>The student with ID &ldquo;{studentId}&rdquo; could not be found.</p>
+        <p>
+          The student with ID &ldquo;{studentId}&rdquo; could not be found in
+          the selected cohort
+          {selectedCohort ? ` "${selectedCohort.name}"` : ''}.
+        </p>
         <Link to={referringPage.path}>
           <Button variant="soft">
             <ArrowLeftIcon /> {referringPage.label}

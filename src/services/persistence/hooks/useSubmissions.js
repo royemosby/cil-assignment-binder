@@ -1,5 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
+import {
+  cleanStudentName,
+  extractCohortFromName,
+  hasEmbeddedCohort,
+} from '@services/utils/cohortUtils';
 
 export function useSubmissions() {
   const submissions = useLiveQuery(() => db.submissions.toArray());
@@ -116,6 +121,79 @@ export function useSubmissions() {
     }
   };
 
+  // Validate cohort consistency before upload
+  const validateCohortConsistency = async (csvData, selectedCohortId) => {
+    const validation = {
+      conflicts: [],
+      mixedCohorts: [],
+      existingStudentConflicts: [],
+      newCohorts: [],
+      recommendations: [],
+    };
+
+    // Extract cohort names from CSV data
+    const csvCohortCounts = {};
+    const studentsWithoutCohort = [];
+
+    for (const row of csvData) {
+      const studentName = row.name || row.studentName || '';
+      const extractedCohort = extractCohortFromName(studentName);
+
+      if (hasEmbeddedCohort(studentName)) {
+        csvCohortCounts[extractedCohort] =
+          (csvCohortCounts[extractedCohort] || 0) + 1;
+      } else {
+        studentsWithoutCohort.push(studentName);
+      }
+    }
+
+    // Get selected cohort details
+    const selectedCohort = await db.cohorts.get(selectedCohortId);
+
+    // Check for mixed cohorts in CSV
+    const detectedCohorts = Object.keys(csvCohortCounts);
+    if (detectedCohorts.length > 1) {
+      validation.mixedCohorts = detectedCohorts.map((name) => ({
+        cohortName: name,
+        studentCount: csvCohortCounts[name],
+      }));
+    }
+
+    // Check if CSV cohorts match selected cohort
+    const primaryCsvCohort =
+      detectedCohorts.length === 1 ? detectedCohorts[0] : null;
+    if (
+      primaryCsvCohort &&
+      selectedCohort &&
+      primaryCsvCohort !== selectedCohort.name
+    ) {
+      validation.conflicts.push({
+        type: 'cohort_mismatch',
+        selectedCohort: selectedCohort.name,
+        csvCohort: primaryCsvCohort,
+        affectedStudents: csvCohortCounts[primaryCsvCohort],
+      });
+    }
+
+    // Check for existing student conflicts (students already in different cohorts)
+    for (const cohortName of detectedCohorts) {
+      const existingCohort = await db.cohorts
+        .where('name')
+        .equals(cohortName)
+        .first();
+      if (!existingCohort) {
+        validation.newCohorts.push(cohortName);
+      }
+    }
+
+    // Add students without cohort identifiers to validation
+    if (studentsWithoutCohort.length > 0) {
+      validation.studentsWithoutCohort = studentsWithoutCohort;
+    }
+
+    return validation;
+  };
+
   // Bulk upsert operations with student handling
   const upsertSubmissions = async (
     submissionsArray,
@@ -124,15 +202,29 @@ export function useSubmissions() {
     try {
       const results = [];
       const studentResults = { created: 0, updated: 0, errors: [] };
+      const processedStudents = new Set(); // Track unique students to avoid double counting
 
       for (const submissionData of submissionsArray) {
         let processedSubmission = { ...submissionData };
 
         // If submission has a 'name' field but no studentId, handle student upsert
         if (submissionData.name && !submissionData.studentId) {
-          // Extract student data from submission
+          // Parse cohort information from student name
+          const fullStudentName = submissionData.name;
+          const extractedCohortName = extractCohortFromName(fullStudentName);
+          const cleanName = cleanStudentName(fullStudentName);
+
+          // Log cohort parsing for debugging
+          console.log('Parsing student name:', {
+            fullName: fullStudentName,
+            cleanName: cleanName,
+            extractedCohort: extractedCohortName,
+            hasEmbeddedCohort: hasEmbeddedCohort(fullStudentName),
+          });
+
+          // Extract student data from submission with clean name
           const studentData = {
-            name: submissionData.name,
+            name: cleanName, // Use cleaned name without cohort suffix
             ...(submissionData.slack && { slack: submissionData.slack }),
             ...(submissionData.slackUrl && {
               slackUrl: submissionData.slackUrl,
@@ -145,17 +237,31 @@ export function useSubmissions() {
             }),
           };
 
-          // Handle student upsert directly
+          // Handle student upsert with cohort context
           let studentResult;
           try {
-            // Search for existing student by name
-            const existingStudent = await db.students
-              .where('name')
-              .equals(studentData.name)
-              .first();
+            // For cohort-aware matching: search by clean name within cohort
+            const existingStudent = submissionData.cohortId
+              ? await db.students
+                  .where('name')
+                  .equals(cleanName) // Use clean name for matching
+                  .and(
+                    (student) => student.cohortId === submissionData.cohortId
+                  )
+                  .first()
+              : await db.students
+                  .where('name')
+                  .equals(cleanName) // Use clean name for matching
+                  .first();
 
             if (existingStudent) {
-              await db.students.update(existingStudent.id, studentData);
+              // Preserve existing auditStatus during CSV updates
+              const updateData = {
+                ...studentData,
+                auditStatus:
+                  studentData.auditStatus || existingStudent.auditStatus || '',
+              };
+              await db.students.update(existingStudent.id, updateData);
               studentResult = {
                 success: true,
                 id: existingStudent.id,
@@ -173,10 +279,16 @@ export function useSubmissions() {
 
           if (studentResult.success) {
             processedSubmission.studentId = studentResult.id;
-            if (studentResult.action === 'created') {
-              studentResults.created++;
-            } else {
-              studentResults.updated++;
+
+            // Only count each student once, even if they appear in multiple submissions
+            const studentKey = `${studentResult.id}-${studentResult.action}`;
+            if (!processedStudents.has(studentKey)) {
+              processedStudents.add(studentKey);
+              if (studentResult.action === 'created') {
+                studentResults.created++;
+              } else {
+                studentResults.updated++;
+              }
             }
 
             // Remove student fields from submission data
@@ -241,6 +353,7 @@ export function useSubmissions() {
     upsertSubmission,
     addSubmissions,
     upsertSubmissions,
+    validateCohortConsistency,
     loading: submissions === undefined,
   };
 }
@@ -297,6 +410,84 @@ export function useSubmissionsWithStudents() {
       student: studentMap[submission.studentId] || null,
     }));
   });
+
+  return {
+    submissionsWithStudents,
+    loading: submissionsWithStudents === undefined,
+  };
+}
+
+export function useSubmissionsByCohort(cohortId) {
+  // Read - get submissions filtered by cohort through student relationship
+  const submissions = useLiveQuery(async () => {
+    if (!cohortId) return [];
+
+    // Get all students in the cohort
+    const cohortStudents = await db.students
+      .where('cohortId')
+      .equals(cohortId)
+      .toArray();
+
+    const studentIds = cohortStudents.map((student) => student.id);
+
+    if (studentIds.length === 0) return [];
+
+    // Get submissions for those students
+    const submissions = await db.submissions
+      .where('studentId')
+      .anyOf(studentIds)
+      .toArray();
+
+    // Join with student data
+    const studentMap = cohortStudents.reduce((acc, student) => {
+      acc[student.id] = student;
+      return acc;
+    }, {});
+
+    return submissions.map((submission) => ({
+      ...submission,
+      student: studentMap[submission.studentId] || null,
+    }));
+  }, [cohortId]);
+
+  return {
+    submissions,
+    loading: submissions === undefined,
+  };
+}
+
+export function useSubmissionsWithStudentsForCohort(cohortId) {
+  // Read - get submissions with students filtered by cohort
+  const submissionsWithStudents = useLiveQuery(async () => {
+    if (!cohortId) return [];
+
+    const cohortStudents = await db.students
+      .where('cohortId')
+      .equals(cohortId)
+      .toArray();
+
+    // Manual sorting since we can't use orderBy after where().equals()
+    cohortStudents.sort((a, b) => a.name.localeCompare(b.name));
+
+    const studentIds = cohortStudents.map((student) => student.id);
+
+    if (studentIds.length === 0) return [];
+
+    const submissions = await db.submissions
+      .where('studentId')
+      .anyOf(studentIds)
+      .toArray();
+
+    const studentMap = cohortStudents.reduce((acc, student) => {
+      acc[student.id] = student;
+      return acc;
+    }, {});
+
+    return submissions.map((submission) => ({
+      ...submission,
+      student: studentMap[submission.studentId] || null,
+    }));
+  }, [cohortId]);
 
   return {
     submissionsWithStudents,

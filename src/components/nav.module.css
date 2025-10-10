@@ -1,9 +1,44 @@
+.navigation {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
 .links {
   display: flex;
   flex-direction: column;
   text-align: right;
+  gap: 0.5rem;
 }
 
-.active {
-  color: red;
+.links a {
+  text-decoration: none;
+  color: var(--gray-11);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.links a:hover {
+  color: var(--blue-11);
+}
+
+.links a.active {
+  color: var(--blue-11);
+  font-weight: 600;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .links {
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+  }
 }
