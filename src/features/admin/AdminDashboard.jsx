@@ -7,7 +7,7 @@ import {
   TrashIcon,
   GearIcon,
 } from '@radix-ui/react-icons';
-import { useCohortsWithStats } from '@services/persistence/hooks';
+import { useCohorts } from '@services/persistence/hooks';
 import { deleteAllData } from '@services/persistence/db';
 import CohortOnboardingDialog from '@components/CohortOnboardingDialog';
 import CohortEditDialog from '@components/CohortEditDialog';
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const { cohorts: cohortsWithStats, loading } = useCohortsWithStats();
+  const { cohorts: cohortsWithStats, loading } = useCohorts();
 
   const handleCreateCohort = () => {
     setShowOnboarding(true);
@@ -114,9 +114,6 @@ export default function AdminDashboard() {
           <Text size="6" weight="bold" className={styles.title}>
             Cohort Management
           </Text>
-          <Text size="3" color="gray" className={styles.subtitle}>
-            Manage cohorts, settings, and student assignments
-          </Text>
         </div>
 
         <Flex gap="3" align="center">
@@ -139,11 +136,8 @@ export default function AdminDashboard() {
           <Text size="4" weight="medium">
             Current Cohort
           </Text>
-          <Text size="2" color="gray">
-            Select which cohort you&apos;re currently working with. This will
-            filter all data throughout the application.
-          </Text>
-          <CohortSelector />
+
+          <CohortSelector showManageLink={false} />
         </Flex>
       </Card>
 
@@ -207,7 +201,7 @@ export default function AdminDashboard() {
                       Students:
                     </Text>
                     <Text size="2" weight="medium">
-                      {cohort.studentCount || 0}
+                      {cohort.studentCount || 'N/A'}
                     </Text>
                   </Flex>
 
@@ -216,7 +210,7 @@ export default function AdminDashboard() {
                       Submissions:
                     </Text>
                     <Text size="2" weight="medium">
-                      {cohort.submissionCount || 0}
+                      {cohort.submissionCount || 'N/A'}
                     </Text>
                   </Flex>
 
