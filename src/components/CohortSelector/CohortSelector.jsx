@@ -1,7 +1,7 @@
 import { useSelectedCohort } from '../../services/persistence/hooks';
 import { Link } from 'react-router-dom';
 
-export default function CohortSelector() {
+export default function CohortSelector({ showManageLink = true }) {
   const {
     selectedCohort,
     activeCohorts,
@@ -84,20 +84,22 @@ export default function CohortSelector() {
           ))}
         </select>
 
-        <Link
-          to="/admin"
-          style={{
-            textDecoration: 'none',
-            fontSize: '0.75rem',
-            padding: '0.25rem 0.5rem',
-            backgroundColor: 'var(--gray-3)',
-            borderRadius: '4px',
-            color: 'var(--gray-11)',
-            border: '1px solid var(--gray-6)',
-          }}
-        >
-          Manage
-        </Link>
+        {showManageLink && (
+          <Link
+            to="/admin"
+            style={{
+              textDecoration: 'none',
+              fontSize: '0.75rem',
+              padding: '0.25rem 0.5rem',
+              backgroundColor: 'var(--gray-3)',
+              borderRadius: '4px',
+              color: 'var(--gray-11)',
+              border: '1px solid var(--gray-6)',
+            }}
+          >
+            Manage
+          </Link>
+        )}
       </div>
 
       {selectedCohort && (
