@@ -1,12 +1,10 @@
-import {
-  useStudentsWithSubmissionsForCohort,
-  useSelectedCohort,
-} from '@services/persistence/hooks';
+import { useStudentsWithSubmissionsForCohort } from '@services/persistence/hooks';
+import { useCohortContext } from '../../../contexts/CohortContext';
 import StudentCard from './StudentCard';
 import styles from './Students.module.css';
 
 export default function Students() {
-  const { selectedCohort } = useSelectedCohort();
+  const { selectedCohort } = useCohortContext();
   const { studentsWithSubmissions, loading } =
     useStudentsWithSubmissionsForCohort(selectedCohort?.id);
 

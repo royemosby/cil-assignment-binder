@@ -1,13 +1,11 @@
 import styles from './Binder.module.css';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import {
-  useSubmissionsByCohort,
-  useSelectedCohort,
-} from '@services/persistence/hooks';
+import { useSubmissionsByCohort } from '@services/persistence/hooks';
 import { calculateCurrentWeek } from '@services/utils/cohortUtils';
+import { useCohortContext } from '../../contexts/CohortContext';
 
 export default function Binder() {
-  const { selectedCohort } = useSelectedCohort();
+  const { selectedCohort } = useCohortContext();
   const { submissions } = useSubmissionsByCohort(selectedCohort?.id);
   const location = useLocation();
 

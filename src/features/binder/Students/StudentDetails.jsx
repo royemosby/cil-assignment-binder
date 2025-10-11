@@ -1,16 +1,14 @@
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Card, Text, Badge, Button, Separator } from '@radix-ui/themes';
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
-import {
-  useStudentsWithSubmissionsForCohort,
-  useSelectedCohort,
-} from '@services/persistence/hooks';
+import { useStudentsWithSubmissionsForCohort } from '@services/persistence/hooks';
 import { useEffect, useState } from 'react';
+import { useCohortContext } from '../../../contexts/CohortContext';
 import styles from './StudentDetails.module.css';
 
 export default function StudentDetails() {
   const { studentId } = useParams();
-  const { selectedCohort } = useSelectedCohort();
+  const { selectedCohort } = useCohortContext();
   const { studentsWithSubmissions, loading } =
     useStudentsWithSubmissionsForCohort(selectedCohort?.id);
   const location = useLocation();

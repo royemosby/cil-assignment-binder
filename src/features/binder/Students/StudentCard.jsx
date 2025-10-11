@@ -1,11 +1,11 @@
 import { Card, Text, Badge } from '@radix-ui/themes';
 import { Link } from 'react-router-dom';
-import { useSelectedCohort } from '@services/persistence/hooks';
+import { useCohortContext } from '../../../contexts/CohortContext';
 import { calculateCurrentWeek } from '@services/utils/cohortUtils';
 import styles from './StudentCard.module.css';
 
 export default function StudentCard({ student, latestAssignment }) {
-  const { selectedCohort } = useSelectedCohort();
+  const { selectedCohort } = useCohortContext();
 
   // Calculate assignment status color based on how behind the student is
   const getAssignmentStatusClass = () => {

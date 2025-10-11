@@ -1,13 +1,11 @@
-import {
-  useSubmissionsWithStudentsForCohort,
-  useSelectedCohort,
-} from '@services/persistence/hooks';
+import { useSubmissionsWithStudentsForCohort } from '@services/persistence/hooks';
+import { useCohortContext } from '../../../contexts/CohortContext';
 import AssignmentsTable from '@components/AssignmentsTable/AssignmentsTable';
 import SubmissionFlagsLegend from '@components/SubmissionFlagsLegend/SubmissionFlagsLegend';
 import styles from './Assignments.module.css';
 
 export default function Assignments() {
-  const { selectedCohort } = useSelectedCohort();
+  const { selectedCohort } = useCohortContext();
   const { submissionsWithStudents, loading } =
     useSubmissionsWithStudentsForCohort(selectedCohort?.id);
 
