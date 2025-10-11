@@ -28,11 +28,11 @@ export default function DeleteAllDataDialog({ open, onOpenChange, onConfirm }) {
           Delete All Data
         </Dialog.Title>
 
-        <Dialog.Description style={{ marginBottom: '24px', lineHeight: '1.6' }}>
-          <Text size="3" style={{ display: 'block', marginBottom: '16px' }}>
-            ⚠️ <strong>This action cannot be undone!</strong>
-          </Text>
+        <Dialog.Description>
+          ⚠️ This action cannot be undone!
+        </Dialog.Description>
 
+        <div style={{ marginBottom: '24px', lineHeight: '1.6' }}>
           <Text
             size="2"
             color="gray"
@@ -69,7 +69,7 @@ export default function DeleteAllDataDialog({ open, onOpenChange, onConfirm }) {
             <strong>Note:</strong> This only affects data stored locally in your
             browser. Any CSV files or external data sources are not affected.
           </Text>
-        </Dialog.Description>
+        </div>
 
         <Flex gap="3" justify="end" style={{ marginTop: '24px' }}>
           <Button variant="soft" color="gray" onClick={handleCancel} size="3">
