@@ -53,3 +53,34 @@
   display: block;
   margin-top: 0.25rem;
 }
+
+.assignmentSection {
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+/* Assignment status color coding */
+.onTime {
+  background-color: rgba(34, 197, 94, 0.1);
+  /* Green background */
+  border-left: 3px solid rgb(34, 197, 94);
+}
+
+.oneWeekBehind {
+  background-color: rgba(234, 179, 8, 0.1);
+  /* Yellow background */
+  border-left: 3px solid rgb(234, 179, 8);
+}
+
+.twoWeeksBehind {
+  background-color: rgba(249, 115, 22, 0.1);
+  /* Orange background */
+  border-left: 3px solid rgb(249, 115, 22);
+}
+
+.threeWeeksBehind {
+  background-color: rgba(239, 68, 68, 0.1);
+  /* Red background */
+  border-left: 3px solid rgb(239, 68, 68);
+}

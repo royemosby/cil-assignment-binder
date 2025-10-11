@@ -1,0 +1,170 @@
+/* AdminDashboard.module.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.title {
+  color: var(--color-blue-6);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--color-gray-4);
+}
+
+.createButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.selectorCard {
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-blue-3);
+  background-color: var(--color-blue-1);
+}
+
+.emptyState {
+  padding: 4rem 2rem;
+  text-align: center;
+  border: 2px dashed var(--color-gray-2);
+  background-color: var(--color-gray-1);
+}
+
+.cohortsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cohortCard {
+  padding: 1.5rem;
+  border: 1px solid var(--color-gray-2);
+  border-radius: 8px;
+  background-color: white;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.cohortCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-blue-3);
+}
+
+.cohortName {
+  color: var(--color-gray-6);
+  margin-bottom: 0.5rem;
+}
+
+.statusBadge {
+  text-transform: capitalize;
+  font-size: 0.75rem;
+}
+
+.actionButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: var(--color-gray-2);
+}
+
+.cohortDetails {
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-gray-2);
+  border-bottom: 1px solid var(--color-gray-2);
+}
+
+.detailRow {
+  margin-bottom: 0.5rem;
+}
+
+.detailRow:last-child {
+  margin-bottom: 0;
+}
+
+.notes {
+  padding: 0.75rem;
+  background-color: var(--color-gray-1);
+  border-radius: 4px;
+  border-left: 3px solid var(--color-blue-3);
+}
+
+.manageButton {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-gray-2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .createButton {
+    align-self: flex-start;
+  }
+
+  .cohortsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .cohortCard {
+    padding: 1rem;
+  }
+
+  .emptyState {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .actionButton {
+    width: 28px;
+    height: 28px;
+  }
+}

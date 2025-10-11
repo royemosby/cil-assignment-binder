@@ -1,0 +1,4 @@
+Name,Week,Topic,URL,Submitted On,Review Completed,Review Completed By,Review On,Assignment Status,Slack,Current Status,Slack URL
+John Doe (Kiwi),1,HTML Basics,https://github.com/johndoe/week1,2024-01-15,✅,Instructor,2024-01-16,Complete,@johndoe,Active,https://slack.com/johndoe
+Jane Smith (Kiwi),1,HTML Basics,https://github.com/janesmith/week1,2024-01-15,❌,,,Needs Review,@janesmith,Active,https://slack.com/janesmith
+Bob Wilson (Mango),1,HTML Basics,https://github.com/bobwilson/week1,2024-01-15,✅,Instructor,2024-01-16,Complete,@bobwilson,Active,https://slack.com/bobwilson

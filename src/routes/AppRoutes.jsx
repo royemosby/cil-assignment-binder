@@ -4,6 +4,7 @@ import Assignments from '../features/binder/Assignments/Assignments';
 import Students from '../features/binder/Students/Students';
 import StudentDetails from '../features/binder/Students/StudentDetails';
 import Upload from '../features/upload/Upload';
+import AdminDashboard from '../features/admin/AdminDashboard';
 
 export default function AppRoutes(props) {
   return (
@@ -16,6 +17,7 @@ export default function AppRoutes(props) {
         <Route path="students/:studentId" element={<StudentDetails />} />
       </Route>
       <Route path="/upload" element={<Upload {...props} />} />
+      <Route path="/admin" element={<AdminDashboard {...props} />} />
     </Routes>
   );
 }

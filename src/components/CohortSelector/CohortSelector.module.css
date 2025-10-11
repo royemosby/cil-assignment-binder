@@ -1,0 +1,99 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+}
+
+.label {
+  color: var(--gray-11);
+  white-space: nowrap;
+}
+
+.trigger {
+  min-width: 180px;
+  background-color: var(--gray-2);
+  border: 1px solid var(--gray-6);
+  transition: all 0.2s ease;
+}
+
+.trigger:hover {
+  background-color: var(--gray-3);
+  border-color: var(--gray-7);
+}
+
+.trigger:focus {
+  outline: none;
+  border-color: var(--blue-6);
+  box-shadow: 0 0 0 1px var(--blue-6);
+}
+
+.value {
+  font-weight: 500;
+  color: var(--gray-12);
+}
+
+.content {
+  background-color: var(--gray-1);
+  border: 1px solid var(--gray-6);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.item {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 200px;
+}
+
+.item:hover {
+  background-color: var(--blue-3);
+}
+
+.item:focus {
+  outline: none;
+  background-color: var(--blue-4);
+}
+
+.statusBadge {
+  margin-left: 0.5rem;
+  font-size: 10px;
+}
+
+.adminLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.adminLink:hover .manageBadge {
+  background-color: var(--gray-4);
+}
+
+.manageBadge {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.subtitle {
+  margin-left: 3rem;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.25rem 0;
+  }
+
+  .trigger {
+    min-width: 140px;
+  }
+
+  .subtitle {
+    margin-left: 2rem;
+    font-size: 10px;
+  }
+}

@@ -4,6 +4,7 @@ export {
   useStudent,
   useStudentsByCohort,
   useStudentsWithSubmissions,
+  useStudentsWithSubmissionsForCohort,
 } from './useStudents';
 export {
   useSubmissions,
@@ -11,5 +12,15 @@ export {
   useSubmissionsByStudent,
   useSubmissionsByWeek,
   useSubmissionsWithStudents,
+  useSubmissionsByCohort,
+  useSubmissionsWithStudentsForCohort,
 } from './useSubmissions';
-export { useCohorts, useCohort, useCohortWithStudents } from './useCohorts';
+export {
+  useCohorts,
+  useCohort,
+  useCohortWithStudents,
+  useActiveCohorts,
+  useCohortsWithStats,
+  useCohortByName,
+} from './useCohorts';
+export { useSelectedCohort } from './useSelectedCohort';
