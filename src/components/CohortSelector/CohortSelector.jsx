@@ -1,4 +1,4 @@
-import { useSelectedCohort } from '../../services/persistence/hooks';
+import { useCohortContext } from '../../contexts/CohortContext';
 import { Link } from 'react-router-dom';
 
 export default function CohortSelector({ showManageLink = true }) {
@@ -8,7 +8,7 @@ export default function CohortSelector({ showManageLink = true }) {
     selectCohort,
     loading,
     hasActiveCohorts,
-  } = useSelectedCohort();
+  } = useCohortContext();
 
   if (loading) {
     return (
